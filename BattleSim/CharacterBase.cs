@@ -64,6 +64,7 @@ namespace BattleSim
                 if(value != null)
                 {
                     characterOccupation = value;
+                    
                 }
             }
         }
@@ -135,7 +136,7 @@ namespace BattleSim
         {
             get
             {
-                return maxHP;
+                return characterOccupation == null ? maxHP : maxHP + characterOccupation.BaseHp;
             }
             set
             {
@@ -169,7 +170,7 @@ namespace BattleSim
         {
             get
             {
-                return maxMP;
+                return characterOccupation == null ? maxMP : maxMP + characterOccupation.BaseMp;
             }
             set
             {
@@ -214,7 +215,7 @@ namespace BattleSim
         {
             get
             {
-                return agility;
+                return characterOccupation == null ? agility : agility + characterOccupation.BaseAgility;
             }
             set
             {
@@ -414,15 +415,15 @@ namespace BattleSim
             xdoc.LoadXml(this.Serialize());
             if(characterName == "")
             {
-                xdoc.Save("myfilename" + ".xml");
+                xdoc.Save("/Characters/myfilename" + ".xml");
             }
            else
             {
-                xdoc.Save(characterName + ".xml"); 
+                xdoc.Save("/Characters/ " + characterName + ".xml"); 
             }
         }
 
-        public new String ToString()
+        public new string ToString()
         {
             return CharacterName;
         }
@@ -431,9 +432,9 @@ namespace BattleSim
         {
             if(CharacterName == "")
             {
-                return ("myfilename.xml").DeserializeXMLFileToObject<CharacterBase>();
+                return ("/Characters/myfilename.xml").DeserializeXMLFileToObject<CharacterBase>();
             }
-           return (CharacterName + ".xml").DeserializeXMLFileToObject<CharacterBase>(); 
+           return ("/Characters/" + CharacterName + ".xml").DeserializeXMLFileToObject<CharacterBase>(); 
         }
     }
 }

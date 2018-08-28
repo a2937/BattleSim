@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace BattleSim
 {
@@ -22,6 +23,11 @@ namespace BattleSim
         private double resGrowth = 0;
         private double intGrowth = 0;
         //private List<Spell> spells = new List<Spell>(20);
+
+        public CharacterOccupation()
+        {
+
+        }
 
         public string OccupationName
         {
@@ -227,6 +233,29 @@ namespace BattleSim
         public new string ToString()
         {
             return OccupationName;
+        }
+
+        public void Save()
+        {
+            XmlDocument xdoc = new XmlDocument();
+            xdoc.LoadXml(this.Serialize());
+            if (occupationName == "")
+            {
+                xdoc.Save("/Occuptations/myfilename" + ".xml");
+            }
+            else
+            {
+                xdoc.Save("/Occuptations/ " + occupationName + ".xml");
+            }
+        }
+
+        public static CharacterOccupation Load(string OccupationName)
+        {
+            if (OccupationName == "")
+            {
+                return "/Occuptations/myfilename.xml".DeserializeXMLFileToObject<CharacterOccupation>();
+            }
+            return ("/Occuptations/" + OccupationName + ".xml").DeserializeXMLFileToObject<CharacterOccupation>();
         }
     }
 }
