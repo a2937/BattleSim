@@ -25,6 +25,11 @@ namespace BattleSim
             }
         }
 
+        public void LevelUp()
+        {
+            Level = Level + 1; 
+        }
+
         public new static Player Load(string CharacterName)
         {
             if (CharacterName == "")

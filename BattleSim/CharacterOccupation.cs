@@ -239,13 +239,14 @@ namespace BattleSim
         {
             XmlDocument xdoc = new XmlDocument();
             xdoc.LoadXml(this.Serialize());
+            System.IO.Directory.CreateDirectory("Occupations/");
             if (occupationName == "")
             {
-                xdoc.Save("/Occuptations/myfilename" + ".xml");
+                xdoc.Save("Occuptations/myfilename" + ".xml");
             }
             else
             {
-                xdoc.Save("/Occuptations/ " + occupationName + ".xml");
+                xdoc.Save("Occuptations/ " + occupationName + ".xml");
             }
         }
 
@@ -253,9 +254,9 @@ namespace BattleSim
         {
             if (OccupationName == "")
             {
-                return "/Occuptations/myfilename.xml".DeserializeXMLFileToObject<CharacterOccupation>();
+                return "Occuptations/myfilename.xml".DeserializeXMLFileToObject<CharacterOccupation>();
             }
-            return ("/Occuptations/" + OccupationName + ".xml").DeserializeXMLFileToObject<CharacterOccupation>();
+            return ("Occuptations/" + OccupationName + ".xml").DeserializeXMLFileToObject<CharacterOccupation>();
         }
     }
 }
