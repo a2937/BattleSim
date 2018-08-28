@@ -5,17 +5,16 @@ using System.Xml;
 
 namespace BattleSim
 {
-    class Program
+    public static class Program
     {
         private static Dictionary<int,CharacterOccupation> Occupations = new Dictionary<int,CharacterOccupation>();
-        static void Main(string[] args)
+
+        private static void Main(string[] args)
         {
             bool done = false;
             InitializeOccupations();
-            while(done == false)
+            while(!done)
             {
-
-
                 Console.Out.WriteLine("Do you want to create a new character or load a character?");
 
                 char loadChoice = HandleStartup(); 
@@ -25,7 +24,7 @@ namespace BattleSim
                     Console.Out.WriteLine("What is the character`s name? Type the name and hit enter.");
                     string characterName = Console.ReadLine();
                     character.CharacterName = characterName;
-                    char classKey = ChooseCharacterOccupation(); 
+                    char classKey = ChooseCharacterOccupation();
                     bool worked = Int32.TryParse(classKey.ToString(), out int actualNumber);
                     if (!worked)
                     {
@@ -37,14 +36,10 @@ namespace BattleSim
                     }
                     Console.Out.WriteLine(character.ToString());
 
-                    int Level = GetDesiredLevel();
-                    character.Level = Level;
-
+                    character.Level = GetDesiredLevel();
                     Console.Out.Write("If this is correct, we will now save your character.");
-
                     character.Save();
                     Console.Out.WriteLine(characterName + "has been saved into Characters/" + characterName + ".xml");
-
                 }
                 else if (loadChoice == '2')
                 {
@@ -52,14 +47,12 @@ namespace BattleSim
                     bool rightCharacterFound = false;
                     do
                     {
-
-
                         Console.Out.WriteLine("What is the name of the character you wish to update?");
                         string characterName = Console.ReadLine();
                         character = CharacterBase.Load(characterName);
                         Console.Out.WriteLine("These are the character stats.");
                         Console.Out.WriteLine(character.ToString());
-                        ConsoleKeyInfo key = Console.ReadKey(); 
+                        ConsoleKeyInfo key = Console.ReadKey();
                         Console.Out.WriteLine("Is the right file to be loaded? Type 1 if yes. Type 2 if no.");
                         while (key.KeyChar != '1' || key.KeyChar != '2')
                         {
@@ -69,11 +62,9 @@ namespace BattleSim
                         if (key.KeyChar == '1')
                         {
                             rightCharacterFound = true;
-                        }
-                      
+                        }               
                     }
-                    while (rightCharacterFound == false);
-
+                    while (!rightCharacterFound);
                     char classKey = ChooseCharacterOccupation();
                     bool worked = Int32.TryParse(classKey.ToString(), out int actualNumber);
                     if (!worked)
@@ -85,17 +76,12 @@ namespace BattleSim
                     {
                         character.CharacterOccupation = Occupations[actualNumber];
                     }
-
-                    int Level = GetDesiredLevel();
-                    character.Level = Level;
-
+                    character.Level = GetDesiredLevel();
                     Console.Out.WriteLine(character.ToString());
 
                     Console.Out.WriteLine("If this is correct, we will now save your character.");
-
                     character.Save();
                     Console.Out.WriteLine(character.CharacterName + " has been saved into Characters/" + character.CharacterName + ".xml");
-
                 }
                 else
                 {
@@ -119,9 +105,6 @@ namespace BattleSim
             CharacterBase characterToLoad = CharacterBase.Load("Ranger");
             Console.Out.WriteLine("Ranger has been loaded.");
           */
-
-
-
         }
 
         private static char HandleStartup()
@@ -135,7 +118,7 @@ namespace BattleSim
                 Console.Out.WriteLine(key.KeyChar + " was not recognized.");
                 Console.Out.WriteLine("Please try again using different input.");
                 key = Console.ReadKey();
-                Console.ReadLine(); 
+                Console.ReadLine();
             }
             return key.KeyChar;
         }
@@ -180,12 +163,11 @@ namespace BattleSim
                 Result = Console.ReadLine();
             }
 
-            return X; 
+            return X;
         }
 
-        static void InitializeOccupations()
+        private static void InitializeOccupations()
         {
-
             CharacterOccupation Soldier = new CharacterOccupation
             {
                 OccupationName = "Soldier",
@@ -233,7 +215,6 @@ namespace BattleSim
                 IntelligenceGrowth = 3.5
             };
             Occupations.Add(4, Priest);
-
 
             CharacterOccupation Wizard = new CharacterOccupation
             {
@@ -295,6 +276,5 @@ namespace BattleSim
             };
             Occupations.Add(9, Hexologist);
         }
-
     }
 }

@@ -37,10 +37,7 @@ namespace BattleSim
             }
             set
             {
-                if (value.Length >= 0)
-                {
-                    occupationName = value;
-                }
+               occupationName = value;
             }
         }
 
@@ -240,23 +237,23 @@ namespace BattleSim
             XmlDocument xdoc = new XmlDocument();
             xdoc.LoadXml(this.Serialize());
             System.IO.Directory.CreateDirectory("Occupations/");
-            if (occupationName == "")
+            if (occupationName?.Length == 0)
             {
-                xdoc.Save("Occuptations/myfilename" + ".xml");
+                xdoc.Save("Occupations/myfilename.xml");
             }
             else
             {
-                xdoc.Save("Occuptations/ " + occupationName + ".xml");
+                xdoc.Save("Occupations/ " + occupationName + ".xml");
             }
         }
 
         public static CharacterOccupation Load(string OccupationName)
         {
-            if (OccupationName == "")
+            if (OccupationName?.Length == 0)
             {
-                return "Occuptations/myfilename.xml".DeserializeXMLFileToObject<CharacterOccupation>();
+                return "Occupations/myfilename.xml".DeserializeXMLFileToObject<CharacterOccupation>();
             }
-            return ("Occuptations/" + OccupationName + ".xml").DeserializeXMLFileToObject<CharacterOccupation>();
+            return ("Occupations/" + OccupationName + ".xml").DeserializeXMLFileToObject<CharacterOccupation>();
         }
     }
 }

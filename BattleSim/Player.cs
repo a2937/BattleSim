@@ -27,12 +27,12 @@ namespace BattleSim
 
         public void LevelUp()
         {
-            Level = Level + 1; 
+            Level++;
         }
 
         public new static Player Load(string CharacterName)
         {
-            if (CharacterName == "")
+            if (CharacterName?.Length == 0)
             {
                 return ("myfilename.xml").DeserializeXMLFileToObject<Player>();
             }

@@ -9,9 +9,11 @@ namespace BattleSim
 {
     public static class XMLSerializerExtensionMethod
     {
+          private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public static string Serialize<T>(this T value)
         {
-            if (value == null)
+            if (EqualityComparer<T>.Default.Equals(value, default(T)))
             {
                 return string.Empty;
             }
@@ -37,10 +39,11 @@ namespace BattleSim
                 XmlSerializer serializer = new XmlSerializer(typeof(T));
                 returnObject = (T)serializer.Deserialize(xmlStream);
             }
-            catch (Exception)
+
+            catch (Exception ex)
             {
-                
-                //ExceptionLogger.WriteExceptionToConsole(ex, DateTime.Now);
+
+                log.Error(ex.Message + " " + DateTime.Now.ToString());
             }
             return returnObject;
         }

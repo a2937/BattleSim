@@ -32,7 +32,7 @@ namespace BattleSim
         private int iceRes = 0;
         private int windRes = 0;
         private int lightningRes = 0;
-        private CharacterOccupation characterOccupation = null; 
+        private CharacterOccupation characterOccupation;
 
         public CharacterBase()
         {
@@ -63,11 +63,11 @@ namespace BattleSim
             {
                 if(value != null)
                 {
-                    characterOccupation = value;
-                    
+                    characterOccupation = value;                    
                 }
             }
         }
+
         public int Level
         {
             get
@@ -405,19 +405,14 @@ namespace BattleSim
                 }
             }
         }
-
-
-        
-
         public void Save()
         {
             XmlDocument xdoc = new XmlDocument();
             xdoc.LoadXml(this.Serialize());
             System.IO.Directory.CreateDirectory("Characters/"); 
-            if (characterName == "")
+            if (characterName?.Length == 0)
             {
-              
-                xdoc.Save("Characters/myfilename" + ".xml");
+                xdoc.Save("Characters/myfilename.xml");
             }
            else
             {
@@ -432,7 +427,7 @@ namespace BattleSim
 
         public static CharacterBase Load(string CharacterName)
         {
-            if(CharacterName == "")
+            if(CharacterName?.Length == 0)
             {
                 return ("Characters/myfilename.xml").DeserializeXMLFileToObject<CharacterBase>();
             }
