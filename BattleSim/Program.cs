@@ -39,7 +39,9 @@ namespace BattleSim
                     character.Level = GetDesiredLevel();
                     Console.Out.Write("If this is correct, we will now save your character.");
                     character.Save();
-                    Console.Out.WriteLine(characterName + "has been saved into Characters/" + characterName + ".xml");
+                    Console.Out.WriteLine(characterName + " has been saved into Characters/" + characterName.Replace(' ','_') + ".xml");
+                    character = CharacterBase.Load(character.CharacterName);
+                    Console.Out.WriteLine(character.ToString()); 
                 }
                 else if (loadChoice == '2')
                 {
@@ -49,16 +51,26 @@ namespace BattleSim
                     {
                         Console.Out.WriteLine("What is the name of the character you wish to update?");
                         string characterName = Console.ReadLine();
-                        character = CharacterBase.Load(characterName);
-                        Console.Out.WriteLine("These are the character stats.");
-                        Console.Out.WriteLine(character.ToString());
-                        ConsoleKeyInfo key = Console.ReadKey();
-                        Console.Out.WriteLine("Is the right file to be loaded? Type 1 if yes. Type 2 if no.");
-                        while (key.KeyChar != '1' || key.KeyChar != '2')
+                        character = CharacterBase.Load(characterName.Replace(' ', '_'));
+                        ConsoleKeyInfo key;
+                        if (character != null)
                         {
-                            Console.Out.WriteLine("Input not recognized. Please try again.");
+                            Console.Out.WriteLine("These are the character stats.");
+
+                            Console.Out.WriteLine(character.ToString());
+                            Console.Out.WriteLine("Is the right file to be loaded? Type 1 if yes. Type 2 if no.");
                             key = Console.ReadKey();
+                            Console.ReadLine();
+                            
                         }
+                        else
+                        {
+                            Console.Out.WriteLine("No file found with that name. Type 1 to .");
+                            key = Console.ReadKey();
+                            Console.ReadLine();
+                        }
+                       
+                        
                         if (key.KeyChar == '1')
                         {
                             rightCharacterFound = true;
@@ -90,21 +102,6 @@ namespace BattleSim
             }
             Console.Out.WriteLine("Press any key to exit.");
             Console.ReadKey();
-            //CharacterBase character = new CharacterBase();
-
-            /*
-            CharacterOccupation occupation = new CharacterOccupation();
-            occupation.OccupationName = "Ranger";
-
-            character.CharacterName = "Ranger";
-            character.CharacterOccupation = occupation;
-            character.Save();
-            Console.Out.WriteLine("Ranger has been saved into Ranger.xml");
-
-            Console.Out.WriteLine("Loading Ranger.xml."); 
-            CharacterBase characterToLoad = CharacterBase.Load("Ranger");
-            Console.Out.WriteLine("Ranger has been loaded.");
-          */
         }
 
         private static char HandleStartup()

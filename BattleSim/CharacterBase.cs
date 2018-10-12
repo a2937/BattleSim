@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BattleSim.Items;
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text;
@@ -10,11 +11,11 @@ namespace BattleSim
     public class CharacterBase
     {
         private string characterName = "";
-        private int level = 0;
+        private int level = 1;
         private int xp = 0;
         private int gold = 0;
-        private int currentHP = 0;
-        private int maxHP = 0;
+        private int currentHP = 10;
+        private int maxHP = 10;
         private int currentMP = 0;
         private int maxMP = 0;
         private int attack = 0;
@@ -64,6 +65,10 @@ namespace BattleSim
                 if(value != null)
                 {
                     characterOccupation = value;                    
+                }
+                else
+                {
+                    characterOccupation = null; 
                 }
             }
         }
@@ -140,9 +145,13 @@ namespace BattleSim
             }
             set
             {
-                if(value >= 0)
+                if(value > 0)
                 {
                     maxHP = value;
+                }
+                else
+                {
+                    maxHP = (int)Math.Round((level - 1) * 5.5) + (physicalRes / 4);
                 }
             }
         }
@@ -410,13 +419,13 @@ namespace BattleSim
             XmlDocument xdoc = new XmlDocument();
             xdoc.LoadXml(this.Serialize());
             System.IO.Directory.CreateDirectory("Characters/"); 
-            if (characterName?.Length == 0)
+            if (String.IsNullOrEmpty(CharacterName))
             {
-                xdoc.Save("Characters/myfilename.xml");
+                xdoc.Save("myfilename.xml");
             }
            else
             {
-                xdoc.Save("Characters/ " + characterName + ".xml"); 
+                xdoc.Save(characterName.Replace(' ','_') + ".xml"); 
             }
         }
 
@@ -427,11 +436,11 @@ namespace BattleSim
 
         public static CharacterBase Load(string CharacterName)
         {
-            if(CharacterName?.Length == 0)
+            if(String.IsNullOrEmpty(CharacterName))
             {
-                return ("Characters/myfilename.xml").DeserializeXMLFileToObject<CharacterBase>();
+                return ("myfilename.xml").DeserializeXMLFileToObject<CharacterBase>();
             }
-           return ("Characters/" + CharacterName + ".xml").DeserializeXMLFileToObject<CharacterBase>(); 
+           return (CharacterName + ".xml").DeserializeXMLFileToObject<CharacterBase>(); 
         }
     }
 }

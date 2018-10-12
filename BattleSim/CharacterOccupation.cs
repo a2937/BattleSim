@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
@@ -9,7 +10,6 @@ namespace BattleSim
 {
     public class CharacterOccupation
     {
-        private string occupationName = "";
         private int baseHp = 0;
         private int baseMp = 0;
         private int baseStr = 0;
@@ -29,17 +29,7 @@ namespace BattleSim
 
         }
 
-        public string OccupationName
-        {
-            get
-            {
-                return occupationName;
-            }
-            set
-            {
-               occupationName = value;
-            }
-        }
+        public string OccupationName { get; set; } = "";
 
         public int BaseHp
         {
@@ -232,28 +222,5 @@ namespace BattleSim
             return OccupationName;
         }
 
-        public void Save()
-        {
-            XmlDocument xdoc = new XmlDocument();
-            xdoc.LoadXml(this.Serialize());
-            System.IO.Directory.CreateDirectory("Occupations/");
-            if (occupationName?.Length == 0)
-            {
-                xdoc.Save("Occupations/myfilename.xml");
-            }
-            else
-            {
-                xdoc.Save("Occupations/ " + occupationName + ".xml");
-            }
-        }
-
-        public static CharacterOccupation Load(string OccupationName)
-        {
-            if (OccupationName?.Length == 0)
-            {
-                return "Occupations/myfilename.xml".DeserializeXMLFileToObject<CharacterOccupation>();
-            }
-            return ("Occupations/" + OccupationName + ".xml").DeserializeXMLFileToObject<CharacterOccupation>();
-        }
     }
 }

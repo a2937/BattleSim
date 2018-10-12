@@ -31,15 +31,21 @@ namespace BattleSim
         public static T DeserializeXMLFileToObject<T>(this string XmlFilename)
         {
             T returnObject = default(T);
-            if (string.IsNullOrEmpty(XmlFilename)) return default(T);
+     
+            if (string.IsNullOrEmpty(XmlFilename))
+            {
+                log.Error("String null or empty"); 
+                return default(T);
+            }
 
             try
             {
-                StreamReader xmlStream = new StreamReader(XmlFilename);
-                XmlSerializer serializer = new XmlSerializer(typeof(T));
-                returnObject = (T)serializer.Deserialize(xmlStream);
+                using (StreamReader xmlStream = new StreamReader(XmlFilename))
+                {
+                    XmlSerializer serializer = new XmlSerializer(typeof(T));
+                    returnObject = (T)serializer.Deserialize(xmlStream);
+                }
             }
-
             catch (Exception ex)
             {
 
